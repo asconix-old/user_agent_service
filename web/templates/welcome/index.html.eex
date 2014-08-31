@@ -1,0 +1,4 @@
+<div class="jumbotron">
+  <h2>User Agent Service</h2>
+  <p class="lead">HTTP API to retrieve HTTP User-Agent strings</p>
+</div>
