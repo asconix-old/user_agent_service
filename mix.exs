@@ -4,7 +4,7 @@ defmodule UserAgentService.Mixfile do
   def project do
     [ app: :user_agent_service,
       version: "0.0.1",
-      elixir: "~> 0.15.1",
+      elixir: "~> 1.0.0-rc1",
       elixirc_paths: ["lib", "web"],
       deps: deps ]
   end
@@ -29,15 +29,15 @@ defmodule UserAgentService.Mixfile do
 
   defp deps do
     [
-      {:plug, github: "elixir-lang/plug", override: true},
+      {:plug, "~> 0.7.0"},
       {:cowboy, "~> 1.0.0"},
-      {:phoenix, github: "phoenixframework/phoenix"},
+      {:phoenix, "~> 0.4.0"},
       {:postgrex, "~> 0.5.5"},
       {:ecto, "~> 0.2.3"},
       {:hackney, "~> 0.13.1"},
-      {:httpoison, "~> 0.4.1"},
+      {:httpoison, github: "edgurgel/httpoison"},
       {:mochiweb_xpath, github: "retnuh/mochiweb_xpath"},
-      {:plug_basic_auth, github: "chrismccord/plug_basic_auth", branch: "cm/refactor-wrapper-into-call"}      
+      {:plug_basic_auth, "~> 0.2.0"}      
     ]
   end
 end

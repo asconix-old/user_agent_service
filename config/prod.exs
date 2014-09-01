@@ -18,6 +18,6 @@ config :phoenix, UserAgentService.Router,
   session_secret: "%FW^OS#_DK4#7$5U)E6UOR4Z1%_YX74FGE4PW73M=NIJ1%W1874I(0=Y^53XC5)OLI2E"
 
 config :logger, :console,
-  level: :info,
-  metadata: [:request_id]
-
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:user_id, :request_id],
+  level: :info

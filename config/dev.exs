@@ -13,6 +13,6 @@ config :phoenix, :code_reloader,
   enabled: true
 
 config :logger, :console,
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:user_id, :request_id],
   level: :debug
-
-
