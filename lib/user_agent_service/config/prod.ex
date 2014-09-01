@@ -1,4 +1,4 @@
-defmodule UserAgentService.Config.Prod
+defmodule UserAgentService.Config.Prod do
   use UserAgentService.Config
 
   config :router, port: System.get_env("PORT")
