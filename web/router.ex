@@ -8,6 +8,7 @@ defmodule UserAgentService.Router do
 #  plug :dispatch
 
   get "/", UserAgentService.WelcomeController, :index, as: :root
-  resources "/user_agents", UserAgentService.UserAgentController
+  get "/user_agents", UserAgentService.UserAgentController, :index, as: :user_agents
+  get "/user_agents/:user_agent", UserAgentService.UserAgentController, :show, as: :user_agent
 
 end
