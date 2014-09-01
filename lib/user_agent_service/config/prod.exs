@@ -1,0 +1,15 @@
+use Mix.Config
+
+config :phoenix, UserAgentService.Router,
+  port: System.get_env("PORT"),
+  ssl: false,
+  cookies: true,
+  session_key: "_your_app_key",
+  session_secret: "super secret",
+  debug_errors: true
+
+config :phoenix, :code_reloader,
+  enabled: false
+
+config :logger, :console,
+  level: :error
