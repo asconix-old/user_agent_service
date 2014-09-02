@@ -14,7 +14,7 @@ defmodule Mix.Tasks.App.Ua.Fetch do
 	end
 
 	defp ua_dir do
-		"/tmp/user-agent-service/user_agents"
+		"#{:code.priv_dir(:user_agent_service)}/data/user_agents"
 	end
 
   defp create_ua_dir do
