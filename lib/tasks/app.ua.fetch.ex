@@ -14,7 +14,7 @@ defmodule Mix.Tasks.App.Ua.Fetch do
 	end
 
 	defp ua_dir do
-		Path.dirname(__ENV__.file) <> "/../data/user_agents" |> Path.expand
+		Enum.join [:code.priv_dir(:user_agent_service), "/data/user_agents"]
 	end
 
   defp create_ua_dir do
@@ -51,8 +51,8 @@ defmodule Mix.Tasks.App.Ua.Fetch do
 
  	defp urls do
 		[
-			{:crawler, "http://www.useragentstring.com/pages/Crawlerlist/"},
-			{:desktop_browser, "http://www.useragentstring.com/pages/Browserlist/"},
+		{:crawler, "http://www.useragentstring.com/pages/Crawlerlist/"},
+		{:desktop_browser, "http://www.useragentstring.com/pages/Browserlist/"},
   		{:mobile_browser, "http://www.useragentstring.com/pages/Mobile%20Browserlist/"},
   		{:console, "http://www.useragentstring.com/pages/Consolelist/"},
   		{:offline_browser, "http://www.useragentstring.com/pages/Offline%20Browserlist/"},

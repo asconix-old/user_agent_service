@@ -13,7 +13,7 @@ defmodule Mix.Tasks.App.Ua.Import do
 	end
 
 	defp ua_dir do
-		Path.dirname(__ENV__.file) <> "/../data/user_agents" |> Path.expand
+		Enum.join [:code.priv_dir(:user_agent_service), "/data/user_agents"]
 	end
 
   defp insert_to_db("", _string), do: {:error, "User-Agent type missing"}
