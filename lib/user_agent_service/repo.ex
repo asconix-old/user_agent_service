@@ -1,11 +1,14 @@
 defmodule UserAgentService.Repo do
   use Ecto.Repo, adapter: Ecto.Adapters.Postgres, env: Mix.env
 
-  def conf(env), do: parse_url url(env)
-
-  defp url(:dev),  do: "ecto://uagen@localhost/uagen_dev"
-  defp url(:test), do: "ecto://uagen@localhost/uagen_test"
-  defp url(:prod), do: "ecto://postgres:postgres@localhost/uagen"
+  def conf(:dev),
+    do: parse_url "ecto://uagen@localhost/uagen_dev"
+  
+  def conf(:test),
+    do: parse_url "ecto://uagen@localhost/uagen_test?size=1&max_overflow=0"
+  
+  def conf(:prod),
+    do: parse_url(System.get_env("DATABASE_URL")) ++ [lazy: false]
 
   def priv do
     app_dir(:user_agent_service, "priv/repo")
