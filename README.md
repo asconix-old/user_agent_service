@@ -1,25 +1,25 @@
-# User Agent Service
+# User Agent Service (Elixir & Phoenix)
 
-This microservice delivers random HTTP User-Agent strings considering filter parameters e.g. for crawler agents, desktop browsers, mobile clients etc.
+This microservice returns random HTTP User-Agent strings considering filter parameters (e.g. crawler agents, desktop browsers, mobile clients etc.). The intention of this application is to point out how to use the Phoenix framework properly for such purposes. At the end of this short tutorial the service will be running on a Heroku node.
 
 # Installation on Heroku
 
 Heroku provides a way to run an Elixir & Phoenix application by using a 3rd party Heroku buildpack. The deployment is pretty painless when you follow the instructions described in this tutorial.
 
-Note: I'm using [HashNuke's Heroku buildpack for Elixir](https://github.com/HashNuke/heroku-buildpack-elixir). Due to the fact that Elixir 1.0.0-rc2 has been released 2 days ago (31st August 2014) and this buildpack doesn't support it officially yet, I created a fork of it that provides the prebuilt Elixir branch (master branch). You find the forked repository at [https://github.com/asconix/heroku-buildpack-elixir](https://github.com/asconix/heroku-buildpack-elixir). I suppose that the original buildpack will support the current Elixir version within the next few days so that you can switch back to HashNuke's buildpack.
+Note: Elixir 1.0.0-rc2 has been released today (2nd September 2014) which is a very important step for Elixir as a language and ecosystem thus the API remains stable. We will use the most current Elixir version (master branch) for this setup. To get Elixir deployed on a Heroku node I'm using [HashNuke's Heroku buildpack for Elixir](http://www.github.com/HashNuke/heroku-buildpack-elixir). This buildpack doesn't support Elixir 1.0.0-rc2 yet, thus you find a fork of it at [https://github.com/asconix/heroku-buildpack-elixir](https://github.com/asconix/heroku-buildpack-elixir). I suppose that the original buildpack will support the current Elixir version within the next few days so that you can switch back to HashNuke's buildpack.
 
 # Phoenix web application
 
-Due to the fact that this is a tutorial about deploying a web application on Heroku such a web application is needed. For this tutorial I use exemplary the User Agent Service which provides a JSON API and is built on top of Elixir & Phoenix ([www.github.com/asconix/user_agent_service](http://www.github.com/asconix/user_agent_service)). The web application is PostgreSQL backed. A separate chapter describes how to set up the database, fill it with initial data etc. 
+Due to the fact that this is a tutorial about deploying a web application on Heroku such a web application is needed. For this tutorial I use exemplary a microservice that returns a random HTTP User-Agent string on every request as JSON. The web application is PostgreSQL backed. A separate chapter describes how to set up the database, fill it with initial data etc. 
 
-First of all clone the public Git repository of the User Agent Service web application:
+First of all clone its public Git repository:
 
     $~ cd ~/projects
     $~ git clone git@github.com:asconix/user_agent_service.git
 
 # Creation of a Heroku app
 
-For a project that will be hosted on Heroku you need to create an appropriate Heroku application. To create a new Heroku app `user-agent-service` launch the following command within the application directory:
+For a project that will be hosted on Heroku you need to create an appropriate Heroku application. To create a new Heroku app `user-agent-service` launch the following command within the application directory. At this point we use a fork of [HashNuke's Heroku buildpack for Elixir](https://github.com/HashNuke/heroku-buildpack-elixir):
 
     $~ cd ~/projects/user_agent_service
     $~ heroku apps:create user-agent-service --buildpack "https://github.com/asconix/heroku-buildpack-elixir"
@@ -47,7 +47,7 @@ The commands above create additionally the appropriate Git remote. A Git remote 
 You should get a feedback message similar to:
 
     heroku  git@heroku.com:user-agent-service.git (fetch)
-    heroku  git@heroku.com:user-agent-service.git (push
+    heroku  git@heroku.com:user-agent-service.git (push)
 
 # Configuration
 
@@ -62,9 +62,6 @@ Heroku requires the configuration file `elixir_buildpack.conf` (in app's root di
 
     # Elixir version
     elixir_version=(branch master)
-
-    # Rebar version
-    rebar_version=(tag 2.2.0)
 
     # Do dependencies have to be built from scratch on every deploy?
     always_build_deps=false
@@ -356,17 +353,82 @@ In our case the credentials for the production database on Heroku are:
 * Username: `rjrivovwbrudvf`
 * Password: `TePxnfRAST7_wDDtfez-cfh95Z`
 
-Next create the appropriate database tables:
+Important: usually we don't need the credentials above to connect our application to the database. Instead of using the concrete credentials above we're referencing the `DATABASE_URL` variable, e.g. in the Repo configuration `lib/user_agent_service/repo.ex`:
 
-    $~ heroku run mix ecto.create UserAgentService.Repo
+    def conf(:prod),
+      do: parse_url(System.get_env("DATABASE_URL")) ++ [lazy: false]
 
-Login into your database:
+Next run the migration to create the appropriate database tables:
+
+    $~ heroku run mix ecto.migrate UserAgentService.Repo
+
+# Import HTTP User-Agent strings
+
+Fetch the current set of HTTP User-Agent strings from [http://www.useragentstring.com/](http://www.useragentstring.com):
+
+    $~ heroku run mix app.ua.fetch
+
+... and import them into the database:
+
+    $~ heroku run mix app.ua.import
+
+To check if all HTTP User-Agent strings have been imported properly, login into the database:
 
     $~ heroku pg:psql
 
-# Launch
+... and first of all check if the table `user_agents` exists:
 
-To run the application please launch:
+    user-agent-service::MAUVE=> \dt
 
-    $~ cd user_agent_service
-    $~ mix phoenix.start
+You should get a list of all tables available:
+
+                      List of relations
+     Schema |       Name        | Type  |     Owner      
+    --------+-------------------+-------+----------------
+     public | schema_migrations | table | rjrivovwbrudvf
+     public | user_agents       | table | rjrivovwbrudvf
+    (2 rows)
+
+Count the number of HTTP User-Agent strings available in our database:
+
+    user-agent-service::BLUE=> SELECT COUNT(*) FROM user_agents;
+
+In our case the table contains 10.782 entries.
+
+# API requests
+
+__Fetch a random HTTP User-Agent string:__
+
+    $~ curl http://user-agent-service.herokuapp.com/user_agents
+
+returns:
+
+    [{"type":"desktop_browser","string":"Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.8.0.9) Gecko/20070126 Ubuntu/dapper-security Firefox/1.5.0.9"}]
+
+__Fetch a random HTTP User-Agent string for a mobile browser:__
+
+    $~ curl http://user-agent-service.herokuapp.com/user_agents?type=mobile_browser
+
+returns:
+
+    [{"type":"mobile_browser","string":"Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari"}]
+
+Valid strings for type are:
+
+* `crawler`
+* `desktop_browser`
+* `mobile_browser`
+* `console`
+* `offline_browser`
+* `email_client`
+* `link_checker`
+* `email_collector`
+* `validator
+* `feed_reader
+* `library
+* `cloud_platform
+* `other
+
+Notes: to retrieve more than one random HTTP User-Agent string, append `limit` as parameter, e.g.:
+
+    $~ curl http://user-agent-service.herokuapp.com/user_agents?type=mobile_browser&limit=5

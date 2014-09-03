@@ -9,7 +9,7 @@ defmodule UserAgentService.Supervisor do
   def init([]) do
     children = [
       worker(UserAgentService.Repo, []),
-      worker(UserAgentService.Router, [], function: :start)
+      # worker(UserAgentService.Router, [], function: :start)
     ]
     opts = [strategy: :one_for_one, name: UserAgentService.Supervisor]
 
