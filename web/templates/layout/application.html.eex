@@ -4,26 +4,20 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="HTTP User-Agent string generator">
+    <meta name="author" content="Asconix Systems">
 
-    <title>Hello Phoenix!</title>
+    <title>HTTP User-Agent string generator</title>
     <link rel="stylesheet" href="/css/app.css">
   </head>
 
   <body>
     <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li><a href="https://github.com/phoenixframework/phoenix">Get Started</a></li>
-        </ul>
-        <span class="logo"></span>
-      </div>
 
       <%= @inner %>
 
       <div class="footer">
-        <p><a href="http://phoenixframework.org">phoenixframework.org</a></p>
+        <p><a href="http://www.asconix.com">Copyright © 2014 Asconix Systems</a>. All rights reserved.</p>
       </div>
 
     </div> <!-- /container -->

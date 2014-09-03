@@ -1,12 +1,12 @@
 <div class="jumbotron">
-  <h2>User Agent Service</h2>
+  <h2>HTTP User-Agent string generator</h2>
   <p class="lead">JSON API to retrieve random HTTP User-Agent strings</p>
 </div>
 <div>
-  <h4>Fetch a random HTTP User-Agent string</h4>
+  <h4>Fetch a random HTTP User-Agent string:</h4>
   <div class="panel panel-primary">
   	<div class="panel-body">
-  		<tt>$~ curl http://user-agent-service.herokuapp.com/user_agents</tt>
+  		<tt>$~ curl http://uagen.herokuapp.com/user_agents</tt>
   	</div>
   </div>
   <p>returns:</p>
@@ -18,7 +18,7 @@
   <h4>Fetch a random HTTP User-Agent string for a mobile browser:</h4>
   <div class="panel panel-primary">
   	<div class="panel-body">
-  		<tt>$~ curl http://user-agent-service.herokuapp.com/user_agents?type=mobile_browser</tt>
+  		<tt>$~ curl http://uagen.herokuapp.com/user_agents?type=mobile_browser</tt>
   	</div>
   </div>
   <p>returns:</p>
@@ -50,7 +50,7 @@
 
 <div class="panel panel-primary">
   <div class="panel-body">
-    <tt>$~ curl http://user-agent-service.herokuapp.com/user_agents?type=mobile_browser&limit=5</tt>
+    <tt>$~ curl http://uagen.herokuapp.com/user_agents?type=mobile_browser&limit=5</tt>
   </div>
 </div>
 
