@@ -1,0 +1,57 @@
+<div class="jumbotron">
+  <h2>HTTP User-Agent string generator</h2>
+  <p class="lead">JSON API to retrieve random HTTP User-Agent strings</p>
+</div>
+<div>
+  <h4>Fetch a random HTTP User-Agent string:</h4>
+  <div class="panel panel-primary">
+  	<div class="panel-body">
+  		<tt>$~ curl http://uagen.herokuapp.com/user_agents</tt>
+  	</div>
+  </div>
+  <p>returns:</p>
+  <div class="panel panel-primary">
+  	<div class="panel-body">
+  		<tt>[{"type":"desktop_browser","string":"Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.8.0.9) Gecko/20070126 Ubuntu/dapper-security Firefox/1.5.0.9"}]</tt>
+  	</div>
+  </div>
+  <h4>Fetch a random HTTP User-Agent string for a mobile browser:</h4>
+  <div class="panel panel-primary">
+  	<div class="panel-body">
+  		<tt>$~ curl http://uagen.herokuapp.com/user_agents?type=mobile_browser</tt>
+  	</div>
+  </div>
+  <p>returns:</p>
+  <div class="panel panel-primary">
+  	<div class="panel-body">
+  		<tt>[{"type":"mobile_browser","string":"Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari"}]</tt>
+  	</div>
+  </div>
+
+  <p>Valid strings for type are:</p>
+
+  <ul>
+  	<li><tt>crawler</tt></li>
+  	<li><tt>desktop_browser</tt></li>
+  	<li><tt>mobile_browser</tt></li>
+  	<li><tt>console</tt></li>
+  	<li><tt>offline_browser</tt></li>
+  	<li><tt>email_client</tt></li>
+  	<li><tt>link_checker</tt></li>
+  	<li><tt>email_collector</tt></li>
+  	<li><tt>validator</tt></li>
+  	<li><tt>feed_reader</tt></li>
+  	<li><tt>library</tt></li>
+  	<li><tt>cloud_plattform</tt></li>
+  	<li><tt>other</tt></li>
+  </ul>
+
+<p>Notes: to retrieve more than one random HTTP User-Agent string, append <tt>limit</tt> as parameter, e.g.:</p>
+
+<div class="panel panel-primary">
+  <div class="panel-body">
+    <tt>$~ curl http://uagen.herokuapp.com/user_agents?type=mobile_browser&limit=5</tt>
+  </div>
+</div>
+
+</div>
