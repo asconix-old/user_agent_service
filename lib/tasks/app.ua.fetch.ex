@@ -61,9 +61,9 @@ defmodule Mix.Tasks.App.Ua.Fetch do
   		{:email_collector, "http://www.useragentstring.com/pages/E-mail%20Collectorlist/"},
   		{:validator, "http://www.useragentstring.com/pages/Validatorlist/"},
   		{:feed_reader, "http://www.useragentstring.com/pages/Feed%20Readerlist/"},
-  		{:library, "http://www.useragentstring.com/pages/Librarielist/"}
-  		# {:cloud_platform, "http://www.useragentstring.com/pages/Cloud%20Platformlist/"}
-  		# {:other, "http://www.useragentstring.com/pages/Otherlist/"}
+  		{:library, "http://www.useragentstring.com/pages/Librarielist/"},
+  		{:cloud_platform, "http://www.useragentstring.com/pages/Cloud%20Platformlist/"},
+  		{:other, "http://www.useragentstring.com/pages/Otherlist/"}
   	]
 	end
 end
